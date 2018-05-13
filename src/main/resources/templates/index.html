@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!--Squad Generator CSS-->
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/squadgenerator.css}"/>
+    <title>Squad Generator</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container-fluid" style="margin-top: 70px;">
+    <div class="row">
+        <div class="col-md-10 col-sm-12 scroll-y">
+            <div class="alert alert-primary">
+                <h4 class="alert-heading">Welcome to the Squad Generator</h4>
+                <p>
+                    The tool attempts to generate balanced squads based on player rating on different skills: skating, shooting and, checking.
+                </p>
+                <p>For more information on how to use the tool, click the help button <i class="fa fa-question-circle"></i> on the top right corner.</p>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="float-sm-right">
+                        <form th:if="${home.squads.empty}" id="createSquadForm" class="form-inline" th:action="@{/}"
+                              th:object="${home.form}" method="post">
+                            <div class="form-group mx-1">
+                                <label>Select # of Squads: &nbsp;</label>
+                                <select class="form-control" th:field="*{numberOfSquadsToCreate}">
+                                    <option th:each="num : *{possibleNumberOfSquads}"
+                                            th:value="${num}"
+                                            th:text="${num}">1
+                                    </option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-outline-success mt-3 mt-sm-0">
+                                <strong><i class="fas fa-users-cog"></i>&nbsp;Generate Squads</strong>
+                            </button>
+                        </form>
+                        <th:block th:unless="${home.squads.empty}">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button id="expandAll" type="button" class="btn btn-outline-dark"><strong><i
+                                        class="far fa-plus-square"></i>&nbsp;Expand All</strong></button>
+                                <button id="collapseAll" type="button" class="btn btn-outline-dark"><strong><i
+                                        class="far fa-minus-square"></i>&nbsp;Collapse All</strong></button>
+                            </div>
+                            <button type="button" class="btn btn-outline-danger" onclick="location.reload()"><strong><i
+                                    class="fas fa-times"></i>&nbsp;Reset Squads</strong></button>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div id="waitingList" class="col-12" th:unless="${home.waitingList.empty}">
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">
+                            <i class="fas fa-clipboard-list"></i>&nbsp;Waiting List
+                        </div>
+                        <div>
+                            <table class="table table-sm table-striped mb-0">
+                                <thead>
+                                <tr class="table-dark text-dark">
+                                    <th>Player</th>
+                                    <th class="table-column-width">Skating</th>
+                                    <th class="table-column-width">Shooting</th>
+                                    <th class="table-column-width">Checking</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="player : ${home.waitingList}">
+                                    <td th:text="${player.fullName}"></td>
+                                    <th:block th:each="skill : ${player.skills}">
+                                        <td th:text="${skill.rating}"></td>
+                                    </th:block>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3" th:each="squad,iterStat : ${home.squads}">
+                <div class="col-12">
+                    <div class="card"
+                         th:id="${'squad' + iterStat.count}"
+                         th:with="collapsibleCardId = ${'squad' + iterStat.count} + 'collapsible'">
+                        <div class="card-header bg-dark" th:attrappend="data-collapsible-card-id=${collapsibleCardId}">
+                            <div class="row">
+                                <div class="col-sm-10 col-6 text-white">
+                                    <i class="fas fa-users"></i>&nbsp;
+                                    <span th:text="${'Squad ' + iterStat.count}"></span></div>
+                                <div class="col-sm-2 col-6 float-right text-secondary">
+                                    <div class="progress" style="height: 30px;">
+                                        <div class="progress-bar progress-bar-animated bg-secondary" th:style="'width:' + ${squad.getPercentage(T(com.benbobis.squadgenerator.model.SkillType).SKATING)} + '%'">
+                                            <span th:text="${squad.averageSkillRatingForSkating}"></span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-animated bg-info" th:style="'width:' + ${squad.getPercentage(T(com.benbobis.squadgenerator.model.SkillType).SHOOTING)} + '%'">
+                                            <span th:text="${squad.averageSkillRatingForShooting}"></span>
+                                        </div>
+                                        <div class="progress-bar progress-bar-animated bg-danger" th:style="'width:' + ${squad.getPercentage(T(com.benbobis.squadgenerator.model.SkillType).CHECKING)} + '%'">
+                                            <span th:text="${squad.averageSkillRatingForChecking}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:id="${collapsibleCardId}" class="collapse">
+                            <table class="table table-sm table-striped mb-0">
+                                <thead>
+                                <tr class="table-dark text-dark">
+                                    <th>Player</th>
+                                    <th class="table-column-width">Skating</th>
+                                    <th class="table-column-width">Shooting</th>
+                                    <th class="table-column-width">Checking</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="player : ${squad.players}">
+                                    <td th:text="${player.fullName}"></td>
+                                    <th:block th:each="skill : ${player.skills}">
+                                        <td th:text="${skill.rating}"></td>
+                                    </th:block>
+                                </tr>
+                                <tr class="table-dark text-dark">
+                                    <td><strong>Average</strong></td>
+                                    <td><strong th:text="${squad.averageSkillRatingForSkating}"></strong></td>
+                                    <td><strong th:text="${squad.averageSkillRatingForShooting}"></strong></td>
+                                    <td><strong th:text="${squad.averageSkillRatingForChecking}"></strong></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 scroll-y">
+            <nav>
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item" th:unless="${home.waitingList.empty}">
+                        <a class="nav-link" href="#waitingList">Waiting List</a>
+                    </li>
+                    <li class="nav-item" th:each="squad,iterStat : ${home.squads}">
+                        <a class="nav-link" th:href="${'#squad' + iterStat.count}"
+                           th:text="${'Squad ' + iterStat.count}"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/help :: help"></div>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<!--Squad Generator JS-->
+<script th:src="@{js/squadgenerator.js}"></script>
+
+<script type="text/javascript">
+    $(function () {
+        HomePage.initialize();
+    });
+</script>
+</body>
+</html>

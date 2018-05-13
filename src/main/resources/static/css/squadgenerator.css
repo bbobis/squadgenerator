@@ -1,0 +1,8 @@
+.scroll-y {
+    overflow-y: scroll;
+}
+
+/*Used to control the width of the table columns*/
+.table-column-width {
+    width: 20%;
+}

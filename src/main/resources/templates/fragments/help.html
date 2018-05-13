@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<th:block th:fragment="help">
+    <div class="modal fade" id="helpDialog" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">How to use the Squad Generator</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>1. </strong>Select the number of squad you want to generate and click the <strong>Generate Squads</strong> button.</p>
+                    <div class="alert alert-secondary">
+                        <div class="form-inline">
+                            <div class="form-group mx-1">
+                                <label>Select # of Squads: &nbsp;</label>
+                                <select class="form-control form-control-sm " disabled="disabled">
+                                    <option>0</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-success mt-3 mt-sm-0"
+                                    disabled="disabled">
+                                <strong><i class="fas fa-users-cog"></i>&nbsp;Generate Squads</strong>
+                            </button>
+                        </div>
+                        <div class="font-italic mb-0">
+                            <small><i class="fa fa-exclamation-circle"></i> The number of options available is based on:</small>
+                            <ul class="mb-0">
+                                <li>
+                                    <small>The total number of players retrieved from the web.</small>
+                                </li>
+                                <li>
+                                    <small>Each squad must contain equal number of players.</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p>
+                        <strong>2. </strong>The generated squads will be listed with their average skill rating for each skill type.
+                    </p>
+                    <div class="alert alert-secondary">
+                        <p>
+                            <i class="fas fa-square text-secondary"></i> Skating&nbsp;
+                            <i class="fas fa-square text-info"></i> Shooting&nbsp;
+                            <i class="fas fa-square text-danger"></i> Checking
+                            <br/>
+                            <small class="font-italic"><i class="fa fa-exclamation-circle"></i> The number inside the colored boxes represents the squads average rating for that skill.</small>
+                        </p>
+                        <div class="card">
+                            <div class="card-header bg-dark">
+                                <div class="row">
+                                    <div class="col-sm-10 col-6 text-white">
+                                        <i class="fas fa-users"></i>&nbsp;
+                                        <span>Squad 1</span></div>
+                                    <div class="col-sm-2 col-6 float-right text-secondary">
+                                        <div class="progress" style="height: 30px;">
+                                            <div class="progress-bar progress-bar-animated bg-secondary"
+                                                 style="width:36.46408839779006%">
+                                                <span>66</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-animated bg-info"
+                                                 style="width:32.59668508287293%">
+                                                <span>59</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-animated bg-danger"
+                                                 style="width:30.939226519337016%">
+                                                <span>56</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p><strong>3. </strong>Click each squad to see the list of players for that squad and their
+                        rating
+                        per skill.</p>
+                    <div class="alert alert-secondary">
+                        <div class="card">
+                            <div class="card-header bg-dark">
+                                <div class="row">
+                                    <div class="col-sm-10 col-6 text-white">
+                                        <i class="fas fa-users"></i>&nbsp;
+                                        <span>Squad 1</span></div>
+                                    <div class="col-sm-2 col-6 float-right text-secondary">
+                                        <div class="progress" style="height: 30px;">
+                                            <div class="progress-bar progress-bar-animated bg-secondary"
+                                                 style="width:25%">
+                                                <span>25</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-animated bg-info"
+                                                 style="width:30%">
+                                                <span>30</span>
+                                            </div>
+                                            <div class="progress-bar progress-bar-animated bg-danger"
+                                                 style="width:45%">
+                                                <span>45</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-sm table-striped mb-0">
+                                <thead>
+                                <tr class="table-dark text-dark">
+                                    <th>Player</th>
+                                    <th class="table-column-width">Skating</th>
+                                    <th class="table-column-width">Shooting</th>
+                                    <th class="table-column-width">Checking</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>10</td>
+                                    <td>20</td>
+                                    <td>30</td>
+                                </tr>
+                                <tr>
+                                    <td>Jane Doe</td>
+                                    <td>40</td>
+                                    <td>40</td>
+                                    <td>60</td>
+                                </tr>
+                                <tr class="table-dark text-dark">
+                                    <td><strong>Average</strong></td>
+                                    <td><strong>25</strong></td>
+                                    <td><strong>30</strong></td>
+                                    <td><strong>45</strong></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p><strong>4. </strong>Use the <strong>Collapse All</strong> and <strong>Expand All</strong> buttons to show/hide the details of all squads.</p>
+                    <div class="alert alert-secondary">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-outline-dark" disabled="disabled"><strong><i
+                                    class="far fa-plus-square"></i>&nbsp;Expand All</strong></button>
+                            <button type="button" class="btn btn-outline-dark" disabled="disabled"><strong><i
+                                    class="far fa-minus-square"></i>&nbsp;Collapse All</strong></button>
+                        </div>
+                        <p class="mb-0">
+                            <small class="font-italic"><i class="fa fa-exclamation-circle"></i> When all squads are expanded, use the side bar for easy navigation just by clicking on the squad you want to navigate to.</small>
+                        </p>
+                    </div>
+
+                    <p><strong>5. </strong>Use the <strong>Reset Squads</strong> button to put all players back to the waiting list.</p>
+                    <div class="alert alert-secondary">
+                        <button type="button" class="btn btn-sm btn-outline-danger" disabled="disabled"><strong><i
+                                class="fas fa-times"></i>&nbsp;Reset Squads</strong></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
