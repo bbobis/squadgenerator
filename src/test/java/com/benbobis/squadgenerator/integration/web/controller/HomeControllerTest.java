@@ -7,6 +7,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class HomeControllerTest {
     @MockBean
     private PlayerService playerService;
 
+    @Before
+    public void setup(){
+        webClient.getOptions().setJavaScriptEnabled(false);
+    }
     @Test
     public void should_return_index_page_when_navigating_to_home_url() throws Exception {
         given(this.playerService.getWaitingList(any()))
