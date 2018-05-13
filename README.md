@@ -27,11 +27,11 @@ The steps for the approach taken for the algorithm are the following:
 
 **Step 1:** Clone the project.
 
-**Step 2:** On the root directory of the porject, open up a terminal and run the following command:
+**Step 2:** On the root directory of the project, open up a terminal and run the following command:
 ````
 ./mvnw spring-boot:run
 ````
-To integrate with the player service api, you need to provide 3 arguments when running the application:
+To integrate with the player service api, you need to provide 3 arguments to the command:
 * player.api.enable=true
 * player.api.url= *Provide the url for your player service*
 * player.api.endpoint= *Provide the endpoint that returns the PlayerData JSON payload*
