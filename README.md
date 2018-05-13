@@ -13,9 +13,9 @@ Run the following command on a command line to run the application.
 To integrate with the player service api, you need to provide 3 arguments when running the application:
 * squadgenerator.useplayerapi=true
 * player.api.url= *Provide the url for your player service*
-* player.api.endpoint= *Provide the endpoint that returns the PlayerData JSON payload
+* player.api.endpoint= *Provide the endpoint that returns the PlayerData JSON payload*
 
-***I made the assumption that the api does not require any security token to be passed in***
+***I made the assumption that the api does not require any security token to be passed in or any security mechanism***
 ````
 # I'm using the following values for this example:
 # * squadgenerator.useplayerapi=true
