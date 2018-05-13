@@ -1,6 +1,5 @@
 package com.benbobis.squadgenerator.service;
 
-import com.benbobis.squadgenerator.configuration.ExternalConfiguration;
 import com.benbobis.squadgenerator.exception.PlayerDataRetrievalException;
 import com.benbobis.squadgenerator.model.Player;
 import com.benbobis.squadgenerator.model.PlayersData;
@@ -9,6 +8,7 @@ import com.benbobis.squadgenerator.service.client.PlayerAPIClient;
 import com.benbobis.squadgenerator.service.helper.SquadConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -25,14 +25,14 @@ public class PlayerServiceImpl implements PlayerService {
 
     private static final String PLAYERS_JSON_FILE_LOCATION = "classpath:data/players.json";
 
-    private final ExternalConfiguration externalConfiguration;
+    private final boolean enablePlayerServiceIntegration;
 
     private final ObjectMapper objectMapper;
 
     private final PlayerAPIClient playerAPIClient;
 
-    public PlayerServiceImpl(ExternalConfiguration externalConfiguration, ObjectMapper objectMapper, PlayerAPIClient playerAPIClient) {
-        this.externalConfiguration = externalConfiguration;
+    public PlayerServiceImpl(@Value("${player.api.enable}") boolean enablePlayerServiceIntegration, ObjectMapper objectMapper, PlayerAPIClient playerAPIClient) {
+        this.enablePlayerServiceIntegration = enablePlayerServiceIntegration;
         this.objectMapper = objectMapper;
         this.playerAPIClient = playerAPIClient;
     }
@@ -97,11 +97,11 @@ public class PlayerServiceImpl implements PlayerService {
     private List<Player> getPlayers() throws PlayerDataRetrievalException {
         //Based on the configuration, determine if we should use the PlayersData API or the PlayersData JSON file
         //to get all the players data
-        if (externalConfiguration.usePlayerApi()) {
+        if (this.enablePlayerServiceIntegration) {
             try {
                 return playerAPIClient.getPlayersData().getPlayers();
             } catch (FeignException ex) {
-                throw new PlayerDataRetrievalException();
+                throw new PlayerDataRetrievalException(ex.getMessage());
             }
         } else {
             return getPlayersDataFromJSONFile().getPlayers();
@@ -154,7 +154,7 @@ public class PlayerServiceImpl implements PlayerService {
             //Map the JSON content to the PlayersData class
             return objectMapper.readValue(content, PlayersData.class);
         } catch (IOException ex) {
-            throw new PlayerDataRetrievalException();
+            throw new PlayerDataRetrievalException(ex.getMessage());
         }
     }
 }

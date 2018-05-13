@@ -1,6 +1,5 @@
 package com.benbobis.squadgenerator.unit.service;
 
-import com.benbobis.squadgenerator.configuration.ExternalConfiguration;
 import com.benbobis.squadgenerator.exception.PlayerDataRetrievalException;
 import com.benbobis.squadgenerator.model.*;
 import com.benbobis.squadgenerator.service.PlayerServiceImpl;
@@ -40,9 +39,6 @@ public class PlayerServiceTest {
     @Mock
     private ObjectMapper objectMapper;
 
-    @Mock
-    private ExternalConfiguration externalConfiguration;
-
     private PlayerServiceImpl playerService;
 
     private Player alex;
@@ -61,7 +57,7 @@ public class PlayerServiceTest {
 
     @Before
     public void setup() {
-        playerService = new PlayerServiceImpl(externalConfiguration, objectMapper, playerAPIClient);
+        playerService = new PlayerServiceImpl(false, objectMapper, playerAPIClient);
 
         //players
         alex = new Player(UUID.randomUUID().toString(), "Alex", "Carney", Arrays.asList(
@@ -146,7 +142,7 @@ public class PlayerServiceTest {
     @Test
     public void should_throw_PlayerDataRetrievalException_when_failed_to_communicate_with_api() throws Exception {
         //given
-        when(externalConfiguration.usePlayerApi()).thenReturn(true);
+        playerService = new PlayerServiceImpl(true, objectMapper, playerAPIClient);
         when(playerAPIClient.getPlayersData()).thenThrow(FeignException.class);
 
         thrown.expect(PlayerDataRetrievalException.class);

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head_tag(~{::title}, _)">
+    <title>Service Unavailable</title>
+</head>
+<body>
+<!--Header-->
+<th:block th:replace="common :: header(showHelp=false)"/>
+
+<!--Main Content-->
+<th:block th:replace="common :: main(~{::#content})">
+    <div id="content">
+        <div class="alert alert-danger">
+            <h5 class="alert-heading"><i class="fas fa-exclamation-circle"></i> A problem has occurred retrieving data for players. We apologize for the inconvenience.</h5>
+        </div>
+    </div>
+</th:block>
+
+<!--JS Libraries and Additional Script Tags-->
+<th:block th:replace="common :: javascript_section(~{})" />
+</body>
+</html>
