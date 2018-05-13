@@ -21,11 +21,13 @@ The steps for the approach taken for the algorithm are the following:
 ***Obviously this is by no means the best and optimized approach but this does generate some balanced squads***
 
 ## Running the application using *Maven*
-The command provided here is used to run the application through maven. You do not need to download or setup maven if you don't have it.
+### Prerequisite:
+* [Java SE Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Ensure JAVA_HOME environment variable is set and points to your JDK installation
 
-You **need** to have Java 8 installed and JAVA_HOME system environment variable is setup. 
+**Step 1:** Clone the project.
 
-Run the following command on a command line to run the application.
+**Step 2:** On the root directory of the porject, open up a terminal and run the following command:
 ````
 ./mvnw spring-boot:run
 ````
@@ -44,4 +46,4 @@ To integrate with the player service api, you need to provide 3 arguments when r
 ./mvnw spring-boot:run -Dspring-boot.run.arguments=--player.api.enable=true,--player.api.url=http://myplayerservice.com,--player.api.endpoint=/getPlayers
 ````
 
-The application runs on [Localhost 8080](http://localhost:8080)
+**Step 3:** On your browser, navigate to [localhost:8080](http://localhost:8080)
