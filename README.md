@@ -48,7 +48,7 @@ To integrate with the player service api, you need to provide 3 arguments to the
 ./mvnw spring-boot:run -Dspring-boot.run.arguments=--player.api.enable=true,--player.api.url=http://myplayerservice.com,--player.api.endpoint=/getPlayers
 ````
 
-**Step 3:** On your browser, navigate to [localhost:8080](http://localhost:8080
+**Step 3:** On your browser, navigate to [localhost:8080](http://localhost:8080)
 
 ## Technology Stack
 * Spring Boot, Spring MVC
