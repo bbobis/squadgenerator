@@ -28,6 +28,8 @@ The steps for the approach taken for the algorithm are the following:
 **Step 1:** Clone the project.
 
 **Step 2:** On the root directory of the project, open up a terminal and run the following command:
+
+*You might need to add execute permission on the "mvnw" file when running on linux before you can run the command.*
 ````
 ./mvnw spring-boot:run
 ````
