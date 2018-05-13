@@ -1,4 +1,4 @@
-# Squad Generator
+# Squad Generator by Benedict Bobis
 ATB Financial Squad Maker Challenge Submission
 
 ## Approach 
